@@ -3,9 +3,9 @@ $(function(){
 	//abstraction wrapper around extension api, stolen from batarang :)
 	var chromeExtension= {
 		sendRequest: function (requestName, cb) {
-			chrome.extension.sendRequest({
+			browser.runtime.sendMessage({
 			script: requestName,
-			tab: chrome.devtools.inspectedWindow.tabId
+			tab: browser.devtools.inspectedWindow.tabId
 			}, cb || function () {});
 		},
 
@@ -17,17 +17,17 @@ $(function(){
 			} else if (!args) {
 				args = {};
 			}
-			chrome.devtools.inspectedWindow.eval('(' +
+			browser.devtools.inspectedWindow.eval('(' +
 				fn.toString() +
 				'(window, ' +
 				JSON.stringify(args) +
 				'));', cb);
 		},
 		watchRefresh: function (cb) {
-			var port = chrome.extension.connect();
+			var port = browser.runtime.connect();
 			port.postMessage({
 				action: 'register',
-				inspectedTabId: chrome.devtools.inspectedWindow.tabId
+				inspectedTabId: browser.devtools.inspectedWindow.tabId
 			});
 			port.onMessage.addListener(function(msg) {
 				if (msg === 'refresh' && cb) {

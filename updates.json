@@ -1,0 +1,16 @@
+{
+    "addons": {
+        "{cfe074fd-0c16-4c5a-acda-d7d302c51bbb}": {
+            "updates": [
+                {
+                    "version": "2.7.0",
+                    "update_link": "https://raw.githubusercontent.com/djcprinse/chromeextensions-knockoutjs/master/artifacts/knockoutjs_context_debugger-2.7.0-an+fx.xpi"
+                },
+                {
+                    "version": "2.7.1",
+                    "update_link": "https://raw.githubusercontent.com/djcprinse/chromeextensions-knockoutjs/master/artifacts/knockoutjs_context_debugger-2.7.1-an+fx.xpi"
+                }
+            ]
+        }
+    }
+}

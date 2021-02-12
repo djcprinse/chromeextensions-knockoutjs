@@ -1,7 +1,11 @@
 <html>
 <head>
 	<title>KnockoutJS context debugger options</title>
-
+	<meta charset="utf-8">
+	<script src="js/lib/jquery-3.5.1.min.js"></script>
+	<script src="js/lib/bootstrap.min.js"></script>
+	<script src="js/browser.js"></script>
+	<script src="js/options.js"></script>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">	
 	<style>
@@ -15,71 +19,75 @@
 		}
 	</style>
 </head>
-
 <body>
 
 <div>
-<div class="container">
-	<div class="row">
-		<div class="span7 center spacer">
-			<form>
-			  <fieldset>
-				<legend>KnockoutJS context debugger options</legend>
+	<div class="container">
+		<div class="row">
+			<div class="span7 center spacer">
+				<form>
+					<fieldset>
+						<legend>KnockoutJS context debugger options</legend>
 
-				<span class="help-block">
-					If you experience crashes you propably have a non serializable viewmodel. You can turn off the serialization.
-					The extension default does ko.toJS(ko.dataFor($0)) and ko.toJS(ko.contextFor($0).$root)
-				</span>
-				<label class="checkbox">
-				  <input type="checkbox" id="shouldDoKOtoJSCheckbox"> Serialize (provides the best visualization)
-				</label>	
-				
-				<span class="help-block">If you really don't like the extra panel you can disable it here.</span>
-				<label class="checkbox">
-				  <input type="checkbox" id="shouldPanelBeShownCheckbox"> Show KnockoutJS panel.
-				</label>
+						<span class="help-block">
+						If you experience crashes you propably have a non serializable viewmodel. You can turn off the serialization.
+						The extension default does ko.toJS(ko.dataFor($0)) and ko.toJS(ko.contextFor($0).$root)
+					</span>
+						<label class="checkbox">
+							<input type="checkbox" id="shouldDoKOtoJSCheckbox"> Serialize (provides the best
+							visualization)
+						</label>
 
-				<span class="help-block">Enable editBindings, edit$data, edit$root </span>
-				<label class="checkbox">
-				  <input type="checkbox" id="shouldAddEditMethodsCheckbox"> Add snippets for <a href="https://github.com/timstuyckens/chromeextensions-knockoutjs/wiki/Editing-viewmodel-binding-values" target="_blank">manipulation viemodel/binding</a> for the selected DOM element.
-				</label>	
-			  </fieldset>
-			</form>
-			<br/><br/><br/><br/><br/>
-			
-			<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-				<input type="hidden" name="cmd" value="_s-xclick">
-				<input type="hidden" name="hosted_button_id" value="F6EG6CEJ5QV2E">
-				<table>
-				<tr><td><input type="hidden" name="on0" value="Donation">Donation</td></tr><tr><td><select name="os0">
-					<option value="I appreciate your work">I appreciate your work €1,00 EUR</option>
-					<option value="Have a beer">Have a beer €2,50 EUR</option>
-					<option value="Increased developer happiness">Increased developer happiness €5,00 EUR</option>
-					<option value="Could not work without it">Could not work without it €10,00 EUR</option>
-					<option value="Enterprise">Enterprise €50,00 EUR</option>
-				</select> </td></tr>
-				</table>
-				<input type="hidden" name="currency_code" value="EUR">
-				<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-			</form>
+						<span
+							class="help-block">If you really don't like the extra panel you can disable it here.</span>
+						<label class="checkbox">
+							<input type="checkbox" id="shouldPanelBeShownCheckbox"> Show KnockoutJS panel.
+						</label>
+
+						<span class="help-block">Enable editBindings, edit$data, edit$root </span>
+						<label class="checkbox">
+							<input type="checkbox" id="shouldAddEditMethodsCheckbox"> Add snippets for <a
+							href="https://github.com/timstuyckens/chromeextensions-knockoutjs/wiki/Editing-viewmodel-binding-values"
+							target="_blank">manipulation viemodel/binding</a> for the selected DOM element.
+						</label>
+					</fieldset>
+				</form>
+				<br/><br/><br/><br/><br/>
+
+				<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+					<input type="hidden" name="cmd" value="_s-xclick">
+					<input type="hidden" name="hosted_button_id" value="F6EG6CEJ5QV2E">
+					<table>
+						<tr>
+							<td><input type="hidden" name="on0" value="Donation">Donation</td>
+						</tr>
+						<tr>
+							<td><select name="os0">
+								<option value="I appreciate your work">I appreciate your work ï¿½1,00 EUR</option>
+								<option value="Have a beer">Have a beer ï¿½2,50 EUR</option>
+								<option value="Increased developer happiness">Increased developer happiness ï¿½5,00 EUR
+								</option>
+								<option value="Could not work without it">Could not work without it ï¿½10,00 EUR</option>
+								<option value="Enterprise">Enterprise ï¿½50,00 EUR</option>
+							</select></td>
+						</tr>
+					</table>
+					<input type="hidden" name="currency_code" value="EUR">
+					<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_buynow_LG.gif" border="0"
+						   name="submit" alt="PayPal - The safer, easier way to pay online!">
+					<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1"
+						 height="1">
+				</form>
 
 
-
-
-			
-			<div class="alert alert-success hide">
-				<button type="button" class="close" data-dismiss="alert">&times;</button>
-				<h4>Saved</h4> <span id="infoMessage"> </span>
+				<div class="alert alert-success hide">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<h4>Saved</h4> <span id="infoMessage"> </span>
+				</div>
 			</div>
-	  </div>
+		</div>
 	</div>
 </div>
 
-<script src="js/lib/jquery-2.0.0.min.js"></script>
-<script src="js/lib/bootstrap.min.js"></script>
-<script src="js/options.js"></script>
-
-
-
+</body>
 </html>

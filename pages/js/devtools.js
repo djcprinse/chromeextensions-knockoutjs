@@ -5,7 +5,7 @@ var page_getKnockoutInfo = function(shouldSerialize) {
 		//console.log(m);
 	};
 	var ko = window.ko;
-	
+
 	if( !ko){
 		if(typeof window.require === 'function') {
 			var isDefinedAvailable=typeof window.require.defined === 'function';
@@ -26,11 +26,11 @@ var page_getKnockoutInfo = function(shouldSerialize) {
 			return {error:"knockout.js is not used in the page (ko is undefined). Maybe you are using iFrames, if so, browse to the url of the frame and try again."};
 		}
 	}
-	
+
 	var isString = function (obj) {	// _ implementation
 		return toString.call(obj) == '[object String]';
 	};
-	
+
 	function isFunction(functionToCheck) {
 		var getType = {};
 		var res= functionToCheck && getType.toString.call(functionToCheck) == '[object Function]';
@@ -51,7 +51,7 @@ var page_getKnockoutInfo = function(shouldSerialize) {
 		for (i = 0; i < props.length; ++i){
 			//you probably want to see the value of the index instead of the ko.observable function
 			if(props[i]==="$index"){
-				copy["$index()"] = ko.utils.unwrapObservable(context[props[i]]);	
+				copy["$index()"] = ko.utils.unwrapObservable(context[props[i]]);
 			}
 			else if(props[i]==="$root"){
 				if(context[props[i]] != window){
@@ -77,7 +77,7 @@ var page_getKnockoutInfo = function(shouldSerialize) {
 					copy[props[i]] = shouldSerialize? ko.toJS(context[props[i]]) : ko.utils.unwrapObservable(context[props[i]]);
 				}
 				else{
-					copy[props[i]] = ko.utils.unwrapObservable(context[props[i]]);	
+					copy[props[i]] = ko.utils.unwrapObservable(context[props[i]]);
 				}
 			}
 		}
@@ -85,36 +85,36 @@ var page_getKnockoutInfo = function(shouldSerialize) {
 	catch(err){
 		//when you don't select a dom node but plain text  (rare)
 		debug(err);
-		return {info:"Please select a dom node with ko data.",ExtensionError:err}; 
+		return {info:"Please select a dom node with ko data.",ExtensionError:err};
 	}
-	
+
 	try{
 		var dataFor= $0 ? ko.dataFor($0): {};
 		var data =shouldSerialize? ko.toJS(dataFor) : ko.utils.unwrapObservable(dataFor);
-	
+
 		if(isString(data)){	//don't do getOwnPropertyNames if it's not an object
 			copy["vm_string"]=data;
 		}
 		else{
 			try{
-				var props2 = Object.getOwnPropertyNames(data);		
+				var props2 = Object.getOwnPropertyNames(data);
 				for (i = 0; i < props2.length; ++i){
 					//create a empty object that contains the whole vm in a expression. contains even the functions.
-					copy2[props2[i]] = ko.utils.unwrapObservable(data[props2[i]]);	
+					copy2[props2[i]] = ko.utils.unwrapObservable(data[props2[i]]);
 					//show the basic properties of the vm directly, without the need to collapse anything
 					if(shouldSerialize){//if you don't serialize, the isFunction check is useless cause observables are functions
 						if(!isFunction(data[props2[i]])){
 							//chrome sorts alphabetically, make sure the properties come first
-							copy[" "+props2[i]] = data[props2[i]];	
+							copy[" "+props2[i]] = data[props2[i]];
 						}
 					}
-					else{	
-						copy[" "+props2[i]] =  ko.utils.unwrapObservable(data[props2[i]]);	
+					else{
+						copy[" "+props2[i]] =  ko.utils.unwrapObservable(data[props2[i]]);
 					}
 				}
 				//set the whole vm in a expression (collapsable). contains even the functions.
 				copy["vm_toJS"]=copy2;
-		
+
 			}
 			catch(err){
 				//I don't know the type but I'll try to display the data
@@ -149,11 +149,11 @@ var createEditMethods=function(){
 		window.editBinding=(function(){
 			return ko.bindingProvider.instance.getBindings($0,ko.contextFor($0));
 		}).bind(console)();
-		
+
 		window.edit$data=(function(){
 			return ko.contextFor($0).$data;
 		}).bind(console)();
-		
+
 		window.edit$root=(function(){
 			return ko.contextFor($0).$root;
 		}).bind(console)();
@@ -186,30 +186,27 @@ catch(e){
 }
 
 
-chrome.devtools.panels.elements.createSidebarPane(pluginTitle,function(sidebar) {
+browser.devtools.panels.elements.createSidebarPane(pluginTitle,function(sidebar) {
 	"use strict";
 	function updateElementProperties() {
 		//pase a function as a string that will be executed later on by chrome
 		sidebar.setExpression("(" + page_getKnockoutInfo.toString() + ")("+shouldDoKOtoJS+")");
-		
-		
+
+
 		if(shouldAddEditMethod){
-			chrome.devtools.inspectedWindow.eval("("+createEditMethods.toString()+ ")()");
+			browser.devtools.inspectedWindow.eval("("+createEditMethods.toString()+ ")()");
 		}
 	}
 	//initial
 	updateElementProperties();
 	//attach to chrome events so that the sidebarPane refreshes (contains up to date info)
-	chrome.devtools.panels.elements.onSelectionChanged.addListener(updateElementProperties);
+	browser.devtools.panels.elements.onSelectionChanged.addListener(updateElementProperties);
 	sidebar.onShown.addListener(updateElementProperties);
 
-  //listen to a message send by the background page (when the chrome windows's focus changes) 
-  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+  //listen to a message send by the background page (when the chrome windows's focus changes)
+  browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       updateElementProperties();
   });
-  
-  
-  
 });
 
 
@@ -224,10 +221,9 @@ var shouldPanelBeShown=true;
 if(localStorageValue)
 	shouldPanelBeShown=JSON.parse(localStorageValue);
 if(shouldPanelBeShown){
-	var knockoutPanel = chrome.devtools.panels.create(
+	var knockoutPanel = browser.devtools.panels.create(
 		"KnockoutJS",
-		"logo.png",
+		"/logo.png",
 		"/pages/panel.html"
 	);
 }
-

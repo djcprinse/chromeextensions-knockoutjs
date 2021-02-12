@@ -1,15 +1,14 @@
-
-//you cannot use the chrome.windows api in the devtools.js page.
-chrome.windows.onFocusChanged.addListener(function(windowId) {
-	//send message to devtool.js. Then you can re-evaluate ko.dataFor($0)
-	chrome.tabs.getSelected(null, function(tab) {
-	  chrome.tabs.sendMessage(tab.id, {}, function(response) {
-	  });
-	});
+//you cannot use the browser.windows api in the devtools.js page.
+browser.windows.onFocusChanged.addListener(function(windowId) {
+    //send message to devtool.js. Then you can re-evaluate ko.dataFor($0)
+    browser.tabs.query({active: true}, function(tab) {
+      browser.tabs.sendMessage(tab.id, {}, function(response) {
+      });
+    });
 });
 
 // notify of page refreshes
-chrome.extension.onConnect.addListener(function(port) {
+browser.runtime.onConnect.addListener(function(port) {
   port.onMessage.addListener(function (msg) {
     if (msg.action === 'register') {
       var respond = function (tabId, changeInfo, tab) {
@@ -19,12 +18,10 @@ chrome.extension.onConnect.addListener(function(port) {
         port.postMessage('refresh');
       };
 
-      chrome.tabs.onUpdated.addListener(respond);
+      browser.tabs.onUpdated.addListener(respond);
       port.onDisconnect.addListener(function () {
-        chrome.tabs.onUpdated.removeListener(respond);
+        browser.tabs.onUpdated.removeListener(respond);
       });
     }
   });
 });
-
-

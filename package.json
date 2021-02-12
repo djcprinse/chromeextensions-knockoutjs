@@ -1,0 +1,13 @@
+{
+    "name": "chromeextensions-knockoutjs",
+    "version": "2.7.1",
+    "description": "",
+    "devDependencies": {
+        "web-ext": "^5.5.0"
+    },
+    "scripts": {
+        "build": "web-ext build",
+        "sign": "web-ext sign",
+        "firefox:start": "web-ext run --firefox"
+    }
+}

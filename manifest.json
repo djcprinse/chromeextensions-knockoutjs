@@ -1,12 +1,38 @@
 {
-  "name": "Knockoutjs context debugger",
-  "version": "2.6.3",
-  "description": "Shows the knockout context & data for the selected dom node in a sidebar of the elements pane.",
-  "devtools_page": "pages/devtools.html",
-  "permissions": ["tabs"],
-   "background": {
-    "scripts": ["background.js"]
-  },
-  "manifest_version": 2,
-  "options_page": "pages/options.html"
+    "manifest_version": 2,
+
+    "name": "Knockoutjs context debugger",
+    "description": "Shows the knockout context & data for the selected dom node in a sidebar of the elements pane.",
+    "version": "2.7.1",
+
+    "icons": {
+        "128": "logo.png"
+    },
+
+    "devtools_page": "pages/devtools.html",
+
+    "permissions": [
+        "tabs"
+    ],
+
+    "background": {
+        "scripts": [
+            "pages/js/browser.js",
+            "background.js"
+        ]
+    },
+
+    "options_page": "pages/options.html",
+    "options_ui": {
+        "page": "pages/options.html",
+        "browser_style": true,
+        "chrome_style": true
+    },
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{cfe074fd-0c16-4c5a-acda-d7d302c51bbb}",
+            "update_url": "https://raw.githubusercontent.com/djcprinse/chromeextensions-knockoutjs/master/updates.json"
+        }
+    }
 }
